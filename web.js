@@ -1,23 +1,12 @@
 var express = require('express');
-var packageInfo = require('./package.json');
-var bodyParser = require('body-parser');
-
 var app = express();
-app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
-  res.json({ version: packageInfo.version });
+app.set('port', (process.env.PORT || 5000));
+
+app.get('/', function(request, response) {
+  
 });
 
-var server = app.listen(process.env.PORT, "0.0.0.0", function () {
-  var host = server.address().address;
-  var port = server.address().port;
-  console.log('Web server started at http://%s:%s', host, port);
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
 });
-
-module.exports = function (bot) {
-  app.post('/' + bot.token, function (req, res) {
-    bot.processUpdate(req.body);
-    res.sendStatus(200);
-  });
-};
